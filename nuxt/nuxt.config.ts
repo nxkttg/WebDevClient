@@ -1,4 +1,5 @@
 export default defineNuxtConfig({
+  modules: ['@pinia/nuxt', '@nuxt/ui'],
   // Додаємо дату сумісності, щоб прибрати WARN у терміналі
   compatibilityDate: '2026-04-02',
   app: {
