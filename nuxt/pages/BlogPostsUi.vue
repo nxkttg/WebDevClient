@@ -33,8 +33,8 @@
         </NuxtLink>
       </template>
 
-      <template #published_at-cell="{ row }">
-        {{ row.original.published_at ?? '—' }}
+      <template #date_published-cell="{ row }">
+        {{ row.original.date_published ?? '—' }}
       </template>
     </UTable>
 
@@ -57,7 +57,7 @@ type Post = {
   id: number;
   title: string;
   slug: string;
-  published_at: string | null;
+  date_published: string | null;
   user?: {
     id: number;
     name: string;
@@ -70,10 +70,12 @@ type Post = {
 
 type PostsResponse = {
   data: Post[];
-  current_page: number;
-  per_page: number;
-  last_page: number;
-  total: number;
+  meta: {
+    current_page: number;
+    per_page: number;
+    last_page: number;
+    total: number;
+  };
 };
 
 const config = useRuntimeConfig();
@@ -108,7 +110,7 @@ const columns = [
     header: 'Заголовок',
   },
   {
-    accessorKey: 'published_at',
+    accessorKey: 'date_published',
     header: 'Дата публікації',
   },
 ];
@@ -133,10 +135,10 @@ const getPosts = async () => {
     );
 
     posts.value = response.data;
-    page.value = response.current_page;
-    perPage.value = Number(response.per_page);
-    lastPage.value = response.last_page;
-    total.value = response.total;
+    page.value = response.meta.current_page;
+    perPage.value = Number(response.meta.per_page);
+    lastPage.value = response.meta.last_page;
+    total.value = response.meta.total;
   } catch (error) {
     console.error('Помилка завантаження постів:', error);
   } finally {

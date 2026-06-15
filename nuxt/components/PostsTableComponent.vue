@@ -71,7 +71,7 @@
                     {{ post.title }}
                   </NuxtLink>
                 </td>
-                <td class="border p-2">{{ post.published_at ?? '—' }}</td>
+                <td class="border p-2">{{ post.date_published ?? '—' }}</td>
               </tr>
 
               <tr v-if="posts.length === 0">
@@ -114,7 +114,7 @@ type Post = {
   id: number;
   title: string;
   slug: string;
-  published_at: string | null;
+  date_published: string | null;
   user?: {
     id: number;
     name: string;
@@ -127,10 +127,12 @@ type Post = {
 
 type PostsResponse = {
   data: Post[];
-  current_page: number;
-  per_page: number;
-  last_page: number;
-  total: number;
+  meta: {
+    current_page: number;
+    per_page: number;
+    last_page: number;
+    total: number;
+  };
 };
 
 const config = useRuntimeConfig();
@@ -165,10 +167,10 @@ const getPosts = async () => {
     );
 
     posts.value = response.data;
-    page.value = response.current_page;
-    perPage.value = Number(response.per_page);
-    lastPage.value = response.last_page;
-    total.value = response.total;
+    page.value = response.meta.current_page;
+    perPage.value = Number(response.meta.per_page);
+    lastPage.value = response.meta.last_page;
+    total.value = response.meta.total;
   } catch (error) {
     console.error('Помилка завантаження постів:', error);
   } finally {
