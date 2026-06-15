@@ -64,12 +64,12 @@
                 <td class="border p-2">{{ post.user?.name ?? '—' }}</td>
                 <td class="border p-2">{{ post.category?.title ?? '—' }}</td>
                 <td class="border p-2">
-                  <a
-                    :href="'/admin/blog/posts/' + post.id + '/edit'"
+                  <NuxtLink
+                    :to="'/admin/blog/posts/' + post.id"
                     class="text-blue-600 underline"
                   >
                     {{ post.title }}
-                  </a>
+                  </NuxtLink>
                 </td>
                 <td class="border p-2">{{ post.published_at ?? '—' }}</td>
               </tr>
